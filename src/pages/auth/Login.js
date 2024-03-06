@@ -1,60 +1,112 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Input, Typography } from "@material-tailwind/react";
 import MyButton from "../../components/MyButton";
+import { useForm } from "react-hook-form";
+import {
+  IoLockClosedOutline,
+  IoMailOutline,
+  IoEyeOutline,
+  IoEyeOffOutline,
+} from "react-icons/io5";
+import "./login.css";
+import { useDispatch, useSelector } from "react-redux";
+import { loginRequest } from "../../redux/reducers/AuthReducer";
+import { toast } from "react-toastify";
+import { getBarRequest } from "../../redux/reducers/MasterReducer";
+import { Link } from "react-router-dom";
 
+let authStatus = "";
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const Auth = useSelector((state) => state.Auth);
+  const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const onSubmit = (data) => {
+    dispatch(loginRequest(data));
+  };
+
+  useEffect(() => {
+    switch (Auth.status) {
+      case "Auth/loginRequest":
+        authStatus = Auth.status;
+        break;
+      case "Auth/loginSuccess":
+        authStatus = Auth.status;
+        dispatch(getBarRequest());
+        break;
+      case "Auth/loginFailure":
+        authStatus = Auth.status;
+        toast.error(Auth.error?.message);
+        break;
+    }
+  }, [Auth.status]);
+
   return (
-    <>
-      <div className="login_body ">
-        <Card className="login_card" color="transparent" shadow={false}>
-          <img
-            className="logo"
-            src="https://www.pngall.com/wp-content/uploads/13/Pepsi-Logo-Old-Transparent.png"
-            alt="Image Description"
-            style={{ width: "189px" }}
-          />
-          <Typography variant="h4" color="blue-gray" className="login_text">
-            Login
-          </Typography>
-          <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
-            <div className="mb-4 flex flex-col gap-10 ">
-              <div className="relative flex w-full flex-wrap items-stretch">
-                <span className="z-10 h-full leading-snug font-normal absolute text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                <i class="fa-solid fa-user" />
-                </span>
-                <input
-                  type="text"
-                  size="lg"
-                  placeholder="USER NAME"
-                  className="login_input px-3 relative outline-none focus:outline-none focus:ring w-full pl-10"
-                />
-              </div>
-              <div className="relative flex w-full flex-wrap items-stretch">
-                <span className="z-10 h-full leading-snug font-normal absolute text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                <i class="fa-solid fa-key" />
-                </span>
-                <input
-                  type="password"
-                  size="lg"
-                  placeholder="PASSWORD"
-                  className="login_input px-3 relative outline-none focus:outline-none focus:ring w-full pl-10"
-                />
-              </div>
+    <section className="login-body">
+      <div class="form-box">
+        <div class="form-value">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div class="logo">
+              <img src={require("../../assets/ic_barliq.png")} />
             </div>
-            <div>
-              <div className="text-center mt-8 login_btn">
-                <MyButton>login</MyButton>
-              </div>
+
+            <h2>Login</h2>
+
+            <div class="inputbox">
+              <IoMailOutline className="ion-icon" />
+
+              <input
+                type="email"
+                required
+                {...register("email", { required: true })}
+              />
+
+              <label>Email</label>
             </div>
+
+            <div class="inputbox">
+              <span onClick={() => setShowPassword((preState) => !preState)}>
+                {showPassword ? (
+                  <IoEyeOffOutline className="ion-icon cursor-pointer" />
+                ) : (
+                  <IoEyeOutline className="ion-icon cursor-pointer" />
+                )}
+              </span>
+
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                {...register("password", { required: true })}
+              />
+
+              <label>Password</label>
+            </div>
+
+            {/* <div class="forget">
+              <label>
+                <input type="checkbox" />
+                Remember Me
+              </label>
+
+              <a href="#">Forgot Password</a>
+            </div> */}
+
+            <button type="submit">Log In</button>
+
+
+            {/* <div class="register">
+              <p>
+                Don't have an account? <a href="#">Sign Up</a>
+              </p>
+            </div> */}
           </form>
-        </Card>
-        <img
-          className="logo_sm"
-          src="https://www.pngall.com/wp-content/uploads/13/Pepsi-Logo-Old-Transparent.png"
-          alt="Image Description"
-          style={{ width: "70px" }}
-        />
+        </div>
       </div>
-    </>
+    </section>
   );
 }

@@ -8,6 +8,7 @@
   position: relative;
   overflow: hidden !important;
   /* background-color: #f8f8f8; */
+  font-size: large;
   max-height: 100vh;
   height: calc(100vh - 65px);
 }
@@ -25,24 +26,40 @@
 
 /* table css  */
 th {
-  font-family: Poppins;
+  font-family: "Poppins", sans-serif;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 23px;
+  @apply p-4;
   letter-spacing: 0em;
   text-align: left;
   text-transform: uppercase;
 }
 
+.table-responsive {
+  @apply sm:overflow-hidden overflow-scroll;
+  max-height: 35vh;
+  overflow-y: scroll;
+  border: 1px solid #6c757d;
+}
+
+.rs-table-cell-bordered {
+  border-right: 1px solid #e20038 !important;
+}
+
 td {
-  font-family: Poppins;
+  font-family: "Poppins", sans-serif;
   font-size: 15px;
   font-style: normal;
   font-weight: 400;
+  border: 1px solid #6c757d;
+  @apply p-4;
   line-height: normal;
 }
+
 .table {
   border-radius: 5px;
+  overflow: hidden;
   padding: 10px !important;
 }
 /* Common CSS end  */
@@ -92,12 +109,12 @@ td {
   border: 2px solid #fff;
   background: rgba(13, 4, 4, 0.2);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  width: 708px;
-  height: 466px;
-  flex-shrink: 0;
-  top: 270px;
+  width: 650px;
+  height: 400px;
+  padding: 48px;
+  top: 130px;
   left: 135px;
-  padding: 30px 0 0 72px;
+  /* padding: 30px 0 0 72px; */
   position: relative;
 }
 .login_body {
@@ -139,7 +156,7 @@ td {
 
 .logo {
   position: absolute;
-  left: 259px;
+  left: 225px;
   margin-top: -135px;
 }
 
@@ -157,9 +174,12 @@ td {
 .bg_sidebar {
   background-color: #32010d !important;
   border-radius: 0;
-  box-shadow: none !important;
+  transition: all .7s;
+  @apply shadow-none
 }
-
+.side_nav:active {
+  background-color: #e20038 !important;
+}
 .dd_menu:hover {
   background-color: #e20038 !important;
   color: #fff !important;
@@ -177,18 +197,6 @@ td {
 }
 
 /* Sidebar end  */
-/* SideMenu.css */
-.side-menu {
-  background-color: #32010d !important;
-  height: 100%;
-  padding-top: 20px;
-
-}
-.sub_menu:hover{
-background-color: #e20038 !important;
-}
-
-
 
 /* Navbar start  */
 
@@ -207,8 +215,7 @@ background-color: #e20038 !important;
   color: #fff;
 }
 .top_nav {
-  background-color: #32010d;
-  height: 65px;
+  background-color: #b8163e;
   border-radius: 0;
   border: none;
 }
@@ -321,33 +328,3 @@ background-color: #e20038 !important;
 }
 
 /* Table end  */
-
-
-
-
-/* Add necessary CSS for the sidebar transition and responsive behavior */
-/* Assuming your mobile breakpoint is around 640px, adjust as needed */
-@media (max-width: 640px) {
-  .sidebar {
-    display: none;
-  }
-  .sidebar-open .sidebar {
-    display: block;
-  }
-
-  /* Mobile sidebar styles */
-  .sidebar-mobile {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: 1000;
-    display: none;
-  }
-
-  .sidebar-mobile.sidebar-open {
-    display: block;
-  }
-}
